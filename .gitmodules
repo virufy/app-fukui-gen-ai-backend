@@ -1,0 +1,3 @@
+[submodule "app-fukui-gen-ai-frontend"]
+	path = app-fukui-gen-ai-frontend
+	url = git@github.com:virufy/app-fukui-gen-ai-frontend.git
