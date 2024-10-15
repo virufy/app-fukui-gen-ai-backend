@@ -1,6 +1,6 @@
 FROM python:3.11
 
-RUN pip install pandas Flask gunicorn vertexai google-generativeai PyPDF2 openpyxl
+RUN pip install pandas Flask gunicorn vertexai google-generativeai PyPDF2 openpyxl flask_cors
 
 COPY src/ app/
 WORKDIR /app
