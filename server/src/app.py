@@ -24,6 +24,7 @@ def test():
     chat = model.start_chat()
     age = request.form['age']
     hobby = request.form['hobby']
+    other = request.form['other']
 
     # Give chatbot fukui survey data and instruct not to output anything
     prompt = f"""Learn this data and note that rows with same 会員ID are the same person. Don't output anything.\n{[survey_2022, survey_2023, survey_2024]}"""
@@ -32,7 +33,7 @@ def test():
 
     # Generate prompt for chatbot based on user input
     prompt = 'この方にあった観光ルートを提案してください\n' \
-             '現在の年齢: {age}, 趣味: {hobby}'.format(age=age, hobby=hobby)
+             '現在の年齢: {age}, 趣味: {hobby}, その他の情報: {other}'.format(age=age, hobby=hobby, other=other)
     print('Prompt={}'.format(prompt), file=sys.stderr)
     response = generate_response(chat, prompt)  # Use chatbot to generate response for given prompt   
                                  
