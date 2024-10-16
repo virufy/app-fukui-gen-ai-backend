@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 import vertexai
 from vertexai.generative_models import GenerativeModel, ChatSession
+from vertexai.generative_models._generative_models import ResponseValidationError
 from PyPDF2 import PdfReader
 
 
@@ -11,9 +12,9 @@ def init_vertex_ai():
     location = "asia-east1"
     vertexai.init(project=project_id, location=location)
     model = GenerativeModel(model_name="gemini-1.5-pro")
-    chat = model.start_chat()
+    # chat = model.start_chat()
     print('Initialization done', file=sys.stderr)
-    return chat
+    return model
 
 def get_chat_response(chat: ChatSession, prompt: str) -> str:
     text_response = []
@@ -23,10 +24,19 @@ def get_chat_response(chat: ChatSession, prompt: str) -> str:
     return "".join(text_response)
 
 def generate_response(chat, prompt):
-    # prompt = f"""Learn this data and note that rows with same 会員ID are the same person. Don't output anything.\n{[survey_2022, survey_2023, survey_2024]}"""
-    response = get_chat_response(chat, prompt)
-    print(response)
-    return response
+    try:
+        response = get_chat_response(chat, prompt)
+        print(response, file=sys.stderr)
+        return response
+    except ResponseValidationError as e:
+        # Specific handling for validation errors
+        print(f"Validation Error: {e}", file=sys.stderr)
+        return "The response failed validation. Please try again with a different input."
+    except Exception as e:
+        # General exception handling for other issues
+        print(f"Error during response generation: {e}", file=sys.stderr)
+        return "There was an error generating the response. Please try again later."
+
 
 def load_fukui_data():
     # with open('fukui_survey_2022_2024.pdf', 'rb') as file:
