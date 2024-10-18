@@ -1,13 +1,16 @@
 FROM python:3.11
 
-RUN pip install pandas Flask gunicorn vertexai google-generativeai PyPDF2 openpyxl flask_cors
+# Install dependencies
+RUN pip install pandas Flask flask_cors gunicorn vertexai google-generativeai PyPDF2 openpyxl
 
-COPY src/ app/
+# Copy the source code into the container
+COPY src/ /app
+
+# Set the working directory
 WORKDIR /app
 
+# Expose the necessary port
 ENV PORT 8080
 
+# Command to run the application using gunicorn
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 app:app
-
-# flask-simple-server
-# export GOOGLE_APPLICATION_CREDENTIALS="/Users/hiroyuki/GoogleCloudPlatform/flask-firebase-sample/app-fukui-gen-ai-7c66629aaca5.json"

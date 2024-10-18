@@ -4,7 +4,7 @@ from flask_cors import CORS # for React frontend compatibility
 from generative_ai import generate_response, init_vertex_ai, load_fukui_data
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/api/*": {"origins": "https://react-frontend-28440209445.us-central1.run.app"}})
 
 model = init_vertex_ai()  # Initialize Vertex AI client for chatbot
 survey_2022, survey_2023, survey_2024 = load_fukui_data() # Load Fukui survey data
